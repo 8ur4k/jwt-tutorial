@@ -12,4 +12,8 @@ const posts = [
   },
 ];
 
+app.get("/posts", (req, res) => {
+  res.json(posts);
+});
+
 app.listen(3000);
