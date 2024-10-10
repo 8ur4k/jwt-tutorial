@@ -36,6 +36,21 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.get("/login", (req, res) => {});
+app.post("/login", async (req, res) => {
+  const user = users.find((user) => user.username === req.body.username);
+  if (user == null) {
+    return res.status(400).send("Cannot find user");
+  }
+
+  try {
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      res.send("Success");
+    } else {
+      res.send("Wrong password");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 app.listen(3000);
